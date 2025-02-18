@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .    
+      dockerfile: Dockerfile
+
+    ports:
+      - '3000:3000'
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - DB_PASSWORD=rootpassword
+      - DB_DATABASE=voucher_pool
+    depends_on:
+      - mysql
+    networks:
+      - voucher-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: voucher_pool
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: userpassword
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - voucher-network
+    ports:
+      - '3306:3306'
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  mysql-data:
+
+networks:
+  voucher-network:
