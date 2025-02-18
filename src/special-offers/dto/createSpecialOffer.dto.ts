@@ -7,8 +7,10 @@ import {
   IsNumber,
 } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateSpecialOfferDto {
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Length(2, 50)
@@ -18,6 +20,7 @@ export class CreateSpecialOfferDto {
   })
   name: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
   @Min(0)

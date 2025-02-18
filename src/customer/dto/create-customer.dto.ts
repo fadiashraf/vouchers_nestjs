@@ -6,8 +6,10 @@ import {
   Matches,
 } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCustomerDto {
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Length(2, 50)
@@ -20,6 +22,7 @@ export class CreateCustomerDto {
   })
   name: string;
 
+  @ApiProperty()
   @IsEmail()
   @IsNotEmpty()
   @Transform((params: TransformFnParams) => {
